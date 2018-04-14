@@ -34,15 +34,26 @@
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">true</prop>
-			</props>
+                <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/ssh_bos</prop>
+                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+            </props>
 		</property>
 		<!-- 注入hibernate的映射文件 -->
 		<property name="mappingLocations">
 			<list>
 				<value>classpath:com/yw/bos/domain/*.xml</value>
-			</list>
+            </list>
 		</property>
-	</bean>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.yw.bos.domain.User</value>
+                <value>com.yw.bos.domain.Decidedzone</value>
+                <value>com.yw.bos.domain.Region</value>
+                <value>com.yw.bos.domain.Staff</value>
+                <value>com.yw.bos.domain.Subarea</value>
+            </list>
+        </property>
+    </bean>
 
 	<!-- 配置事务管理器 -->
 	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.yw.bos.domain.Decidedzone" table="bc_decidedzone" schema="ssh_bos">
+        <id name="id" column="id"/>
+        <property name="name" column="name"/>
+        <property name="staffId" column="staff_id"/>
+        <many-to-one name="staff" class="com.yw.bos.domain.Staff" lazy="false" insert="false" update="false"/>
+        <set name="subareas" inverse="true">
+            <key/>
+            <one-to-many not-found="ignore" class="com.yw.bos.domain.Subarea"/>
+        </set>
+    </class>
+</hibernate-mapping>

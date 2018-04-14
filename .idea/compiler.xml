@@ -19,7 +19,7 @@
       <module name="bos-service" target="1.5" />
       <module name="bos-utils" target="1.5" />
       <module name="bos-web" target="1.5" />
-      <module name="sshbos" target="1.5" />
+      <module name="ssh-bos" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

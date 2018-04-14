@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.yw.bos.domain.Subarea" table="bc_subarea" schema="ssh_bos">
+        <id name="id" column="id"/>
+        <property name="decidedzoneId" column="decidedzone_id"/>
+        <property name="regionId" column="region_id"/>
+        <property name="addresskey" column="addresskey"/>
+        <property name="startnum" column="startnum"/>
+        <property name="endnum" column="endnum"/>
+        <property name="single" column="single"/>
+        <property name="position" column="position"/>
+        <many-to-one name="decidedzone" class="com.yw.bos.domain.Decidedzone" lazy="false" insert="false" update="false">
+            <column name="decidedzone_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="region" class="com.yw.bos.domain.Region" lazy="false" insert="false" update="false">
+            <column name="region_id" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>
