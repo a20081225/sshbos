@@ -13,7 +13,9 @@
         <property name="shortcode" column="shortcode"/>
         <property name="citycode" column="citycode"/>
         <set name="subareas" inverse="true">
-            <key/>
+            <key>
+                <column name="region_id"></column>
+            </key>
             <one-to-many not-found="ignore" class="com.yw.bos.domain.Subarea"/>
         </set>
     </class>

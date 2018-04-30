@@ -5,9 +5,13 @@ import com.yw.bos.domain.Staff;
 import com.yw.bos.service.IStaffService;
 import com.yw.bos.utils.PageBean;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -39,5 +43,12 @@ public class StaffServiceImpl implements IStaffService {
 
     public void update(Staff staff) {
         staffDao.update(staff);
+    }
+
+    //查询未删除的取派员
+    public List<Staff> findNotDelete() {
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Staff.class);
+        detachedCriteria.add(Restrictions.eq("deltag","0"));
+        return staffDao.findByCriteria(detachedCriteria);
     }
 }

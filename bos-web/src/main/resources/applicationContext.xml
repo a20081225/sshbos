@@ -2,6 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:jaxws="http://cxf.apache.org/jaxws"
+	   xmlns:soap="http://cxf.apache.org/bindings/soap"
 	   xmlns:aop="http://www.springframework.org/schema/aop"
 	   xmlns:tx="http://www.springframework.org/schema/tx"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -11,7 +13,11 @@
 						http://www.springframework.org/schema/aop
 						http://www.springframework.org/schema/aop/spring-aop.xsd
 						http://www.springframework.org/schema/tx
-						http://www.springframework.org/schema/tx/spring-tx.xsd">
+						http://www.springframework.org/schema/tx/spring-tx.xsd
+					http://cxf.apache.org/bindings/soap
+					http://cxf.apache.org/schemas/configuration/soap.xsd
+					http://cxf.apache.org/jaxws
+					http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<!-- 加载属性文件 -->
 	<context:property-placeholder location="classpath:db.properties"/>
@@ -36,13 +42,13 @@
 				<prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/ssh_bos</prop>
                 <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
-            </props>
+			</props>
 		</property>
 		<!-- 注入hibernate的映射文件 -->
 		<property name="mappingLocations">
 			<list>
 				<value>classpath:com/yw/bos/domain/*.xml</value>
-            </list>
+			</list>
 		</property>
         <property name="annotatedClasses">
             <list>
@@ -51,7 +57,10 @@
                 <value>com.yw.bos.domain.Region</value>
                 <value>com.yw.bos.domain.Staff</value>
                 <value>com.yw.bos.domain.Subarea</value>
-            </list>
+				<value>com.yw.bos.domain.Noticebill</value>
+				<value>com.yw.bos.domain.Workbill</value>
+				<value>com.yw.bos.domain.Workordermanage</value>
+			</list>
         </property>
     </bean>
 
@@ -67,4 +76,15 @@
 	<context:annotation-config/>
 
 	<tx:annotation-driven/>
+
+	<!--注册cxf-->
+	<jaxws:client id="crmClient"
+				  serviceClass="com.yw.bos.crm.ICustomerService"
+				  address="http://localhost:8081/crmservice/service/customer"/>
+
+	<!--<bean id="client" class="com.yw.bos.crm.ICustomerService" factory-bean="clientFactory" factory-method="create"/>-->
+	<!--<bean id="clientFactory" class="org.apache.cxf.frontend.ClientProxyFactoryBean">-->
+		<!--<property name="serviceClass" value="com.yw.bos.crm.ICustomerService"/>-->
+		<!--<property name="address" value="http://localhost:8081/crmservice/service/customer"/>-->
+	<!--</bean>-->
 </beans>

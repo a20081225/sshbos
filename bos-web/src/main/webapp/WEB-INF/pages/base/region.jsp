@@ -8,9 +8,12 @@
 <!-- 导入jquery核心类库 -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/js/jquery-1.8.3.js"></script>
+<!--导入upload插件-->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/js/jquery.ocupload-1.1.2.js"></script>
 <!-- 导入easyui类库 -->
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/js/easyui/themes/default/easyui.css">
+	href="${pageContext.request.contextPath }/js/easyui/themes/bootstrap/easyui.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/js/easyui/themes/icon.css">
 <link rel="stylesheet" type="text/css"
@@ -99,7 +102,7 @@
 	$(function(){
 		// 先将body隐藏，再显示，不会出现页面刷新效果
 		$("body").css({visibility:"visible"});
-		
+
 		// 收派标准数据表格
 		$('#grid').datagrid( {
 			iconCls : 'icon-forward',
@@ -110,7 +113,7 @@
 			pageList: [30,50,100],
 			pagination : true,
 			toolbar : toolbar,
-			url : "json/region.json",
+			url : "regionAction_pageQuery.action",
 			idField : 'id',
 			columns : columns,
 			onDblClickRow : doDblClickRow
@@ -126,6 +129,12 @@
 	        height: 400,
 	        resizable:false
 	    });
+
+        //调用upload方法
+        $('#button-import').upload({
+            action:'regionAction_importXls.action',
+            name:'regionFile'
+        });
 		
 	});
 

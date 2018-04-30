@@ -14,6 +14,12 @@
         <property name="station" column="station"/>
         <property name="telephone" column="telephone"/>
         <property name="remark" column="remark"/>
+        <set name="noticebills" inverse="true">
+            <key>
+                <column name="user_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.yw.bos.domain.Noticebill"/>
+        </set>
     </class>
     <query name="user.editpassword">
         UPDATE User SET password = ? WHERE id = ?

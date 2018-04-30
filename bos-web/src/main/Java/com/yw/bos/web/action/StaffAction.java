@@ -2,19 +2,12 @@ package com.yw.bos.web.action;
 
 import com.yw.bos.domain.Staff;
 import com.yw.bos.service.IStaffService;
-import com.yw.bos.utils.PageBean;
 import com.yw.bos.web.action.base.BaseAction;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-import org.apache.struts2.ServletActionContext;
-import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * 取派员管理
@@ -59,37 +52,19 @@ public class StaffAction extends BaseAction<Staff>{
         this.ids = ids;
     }
 
-    private int page;
-    private int rows;
+
     //分页
-    public String pageQuery() throws IOException {
-        PageBean pageBean = new PageBean();
-        pageBean.setCurrentPage(page);
-        pageBean.setPageSize(rows);
-        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Staff.class);
-        pageBean.setDetachedCriteria(detachedCriteria);
+    public String pageQuery(){
         staffService.pageQuery(pageBean);
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.setExcludes(new String[]{"currentPage","pageSize","detachedCriteria"});
-        String json = JSONObject.fromObject(pageBean,jsonConfig).toString();
-        ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");
-        ServletActionContext.getResponse().getWriter().print(json);
+        this.makeJson(pageBean,new String[]{"currentPage","pageSize","detachedCriteria","decidedzones"});
         return NONE;
     }
 
-    public int getPage() {
-        return page;
+    //下拉菜单
+    public String listajax(){
+        List<Staff> list = staffService.findNotDelete();
+        this.makeJson(list,new String[]{"decidedzones"});
+        return NONE;
     }
 
-    public void setPage(int page) {
-        this.page = page;
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
 }

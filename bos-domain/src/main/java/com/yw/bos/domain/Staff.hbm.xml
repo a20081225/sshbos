@@ -15,10 +15,25 @@
         <property name="station" column="station"/>
         <property name="standard" column="standard"/>
         <set name="decidedzones" inverse="true">
-            <key/>
+            <key>
+                <column name="staff_id"></column>
+            </key>
             <one-to-many not-found="ignore" class="com.yw.bos.domain.Decidedzone"/>
         </set>
+        <set name="noticebills" inverse="true">
+            <key>
+                <column name="staff_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.yw.bos.domain.Noticebill"/>
+        </set>
+        <set name="workbills" inverse="true">
+            <key>
+                <column name="staff_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.yw.bos.domain.Workbill"/>
+        </set>
     </class>
+
     <query name="staff.delete">
         UPDATE Staff SET deltag = '1' WHERE id = ?
     </query>

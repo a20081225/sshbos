@@ -7,10 +7,14 @@
     <class name="com.yw.bos.domain.Decidedzone" table="bc_decidedzone" schema="ssh_bos">
         <id name="id" column="id"/>
         <property name="name" column="name"/>
-        <property name="staffId" column="staff_id"/>
-        <many-to-one name="staff" class="com.yw.bos.domain.Staff" lazy="false" insert="false" update="false"/>
+        <!--<property name="staffId" column="staff_id"/>-->
+        <many-to-one name="staff" class="com.yw.bos.domain.Staff" lazy="false" >
+            <column name="staff_id" />
+        </many-to-one>
         <set name="subareas" inverse="true">
-            <key/>
+            <key>
+                <column name="decidedzone_id"></column>
+            </key>
             <one-to-many not-found="ignore" class="com.yw.bos.domain.Subarea"/>
         </set>
     </class>

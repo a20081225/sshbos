@@ -43,8 +43,37 @@
 		<!--取派员管理-->
 		<action name="staffAction_*" class="staffAction" method="{1}">
 			<result name="list">/WEB-INF/pages/base/staff.jsp</result>
-			<allowed-methods>add,pageQuery,deleteBatch,edit</allowed-methods>
+			<allowed-methods>add,pageQuery,deleteBatch,edit,listajax</allowed-methods>
 		</action>
 
+		<!--区域管理-->
+		<action name="regionAction_*" class="regionAction" method="{1}">
+			<result name="list">/WEB-INF/pages/base/region.jsp</result>
+			<allowed-methods>importXls,pageQuery,add,listajax</allowed-methods>
+		</action>
+
+		<!--分区管理-->
+		<action name="subareaAction_*" class="subareaAciton" method="{1}">
+			<result name="list">/WEB-INF/pages/base/subarea.jsp</result>
+			<allowed-methods>add,pageQuery,exportXls,listajax,findByDecidedzoneId</allowed-methods>
+		</action>
+
+		<!--定区管理-->
+		<action name="decidedzoneAction_*" class="decidedzoneAction" method="{1}">
+			<result name="list">/WEB-INF/pages/base/decidedzone.jsp</result>
+			<allowed-methods>add,pageQuery,findNotAssociation,findHasAssociation,assign</allowed-methods>
+		</action>
+
+		<!--业务通知单管理-->
+		<action name="noticebillAction_*" class="noticebillAction" method="{1}">
+			<result name="list">/WEB-INF/pages/qupai/noticebill_add.jsp</result>
+			<allowed-methods>findCustomerByTelephone,add</allowed-methods>
+		</action>
+
+		<!--工作单管理-->
+		<action name="workordermanageAction_*" class="workordermanageAction" method="{1}">
+			<result name="list">/WEB-INF/pages/qupai/quickworkorder.jsp</result>
+			<allowed-methods>add</allowed-methods>
+		</action>
 	</package>
 </struts>

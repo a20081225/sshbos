@@ -1,11 +1,9 @@
 package com.yw.bos.web.interceptor;
 
 import com.opensymphony.xwork2.ActionInvocation;
-import com.opensymphony.xwork2.ActionProxy;
 import com.opensymphony.xwork2.interceptor.MethodFilterInterceptor;
 import com.yw.bos.domain.User;
 import com.yw.bos.utils.BOSUtils;
-import org.apache.struts2.ServletActionContext;
 
 /**
  * 用户未登录拦截

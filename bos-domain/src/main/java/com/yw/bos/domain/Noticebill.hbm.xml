@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.yw.bos.domain.Noticebill" table="qp_noticebill" schema="ssh_bos">
+        <id name="id" column="id">
+            <generator class="uuid"></generator>
+        </id>
+        <property name="customerId" column="customer_id"/>
+        <property name="customerName" column="customer_name"/>
+        <property name="delegater" column="delegater"/>
+        <property name="telephone" column="telephone"/>
+        <property name="pickaddress" column="pickaddress"/>
+        <property name="arrivecity" column="arrivecity"/>
+        <property name="product" column="product"/>
+        <property name="pickdate" column="pickdate"/>
+        <property name="num" column="num"/>
+        <property name="weight" column="weight"/>
+        <property name="volume" column="volume"/>
+        <property name="remark" column="remark"/>
+        <property name="ordertype" column="ordertype"/>
+        <many-to-one name="staff" class="com.yw.bos.domain.Staff" lazy="false">
+            <column name="staff_id"/>
+        </many-to-one>
+        <many-to-one name="user" class="com.yw.bos.domain.User" lazy="false">
+            <column name="user_id"/>
+        </many-to-one>
+        <set name="workbills" inverse="true">
+            <key>
+                <column name="noticebill_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.yw.bos.domain.Workbill"/>
+        </set>
+    </class>
+</hibernate-mapping>

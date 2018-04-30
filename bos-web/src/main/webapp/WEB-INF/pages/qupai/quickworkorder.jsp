@@ -10,7 +10,7 @@
 	src="${pageContext.request.contextPath }/js/jquery-1.8.3.js"></script>
 <!-- 导入easyui类库 -->
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/js/easyui/themes/default/easyui.css">
+	href="${pageContext.request.contextPath }/js/easyui/themes/bootstrap/easyui.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/js/easyui/themes/icon.css">
 <link rel="stylesheet" type="text/css"
@@ -165,6 +165,11 @@
 			onAfterEdit : function(rowIndex, rowData, changes){
 				console.info(rowData);
 				editIndex = undefined;
+				$.post('workordermanageAction_add.action',rowData,function (data) {
+                    if(data == '0'){
+                        $.messager.alert("提示信息","录入失败！","error");
+                    }
+                })
 			}
 		});
 	});

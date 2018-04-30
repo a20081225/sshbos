@@ -47,12 +47,15 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
     }
 
     public List<T> findAll() {
-        String hql = "FROM" + entityClass.getName();
+        String hql = "FROM " + entityClass.getName();
         return (List<T>) this.getHibernateTemplate().find(hql);
     }
 
-    public void excuteUpdate(String queryName,Object...objects) {
+    public List<T> findByCriteria(DetachedCriteria detachedCriteria) {
+        return (List<T>) this.getHibernateTemplate().findByCriteria(detachedCriteria);
+    }
 
+    public void excuteUpdate(String queryName,Object...objects) {
         Session session = this.getSessionFactory().getCurrentSession();
         Query query = session.getNamedQuery(queryName);
         int i = 0;
@@ -62,6 +65,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
         query.executeUpdate();
     }
 
+    //分页
     public void pageQuery(PageBean pageBean) {
         Integer currentPage = pageBean.getCurrentPage();
         Integer pageSize = pageBean.getPageSize();
@@ -73,10 +77,14 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
         pageBean.setTotal(count.intValue());
 
         detachedCriteria.setProjection(null);
-
+        detachedCriteria.setResultTransformer(DetachedCriteria.ROOT_ENTITY);
         int firsResult = (currentPage - 1) * pageSize;
         int maxResult = pageSize;
         List rows = this.getHibernateTemplate().findByCriteria(detachedCriteria, firsResult, maxResult);
         pageBean.setRows(rows);
+    }
+
+    public void saveOrUpdate(T entity) {
+        this.getHibernateTemplate().saveOrUpdate(entity);
     }
 }

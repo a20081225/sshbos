@@ -1,6 +1,7 @@
 package com.yw.bos.domain;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -15,6 +16,16 @@ public class User {
     private String station;
     private String telephone;
     private String remark;
+    private Collection<Noticebill> noticebills;
+
+    @OneToMany(mappedBy = "user")
+    public Collection<Noticebill> getNoticebills() {
+        return noticebills;
+    }
+
+    public void setNoticebills(Collection<Noticebill> noticebills) {
+        this.noticebills = noticebills;
+    }
 
     @Id
     @Column(name = "id")

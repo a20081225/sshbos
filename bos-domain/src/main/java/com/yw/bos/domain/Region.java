@@ -1,5 +1,7 @@
 package com.yw.bos.domain;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Collection;
 /**
@@ -7,6 +9,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "bc_region", schema = "ssh_bos")
+//@JsonIgnoreProperties(value={"subareas"})
 public class Region {
     private String id;
     private String province;
@@ -17,6 +20,9 @@ public class Region {
     private String citycode;
     private Collection<Subarea> subareas;
 
+    public String getName(){
+        return province +" "+ city +" "+ district;
+    }
     @Id
     @Column(name = "id")
     public String getId() {

@@ -1,7 +1,9 @@
 package com.yw.bos.base;
 
+import com.yw.bos.domain.Region;
 import com.yw.bos.domain.User;
 import com.yw.bos.utils.PageBean;
+import org.hibernate.criterion.DetachedCriteria;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,7 +24,12 @@ public interface IBaseDao<T> {
 
     public List<T> findAll();
 
+    public List<T> findByCriteria(DetachedCriteria detachedCriteria);
+
     public void excuteUpdate(String queryName,Object...objects);
 
     public void pageQuery(PageBean pageBean);
+
+    public void saveOrUpdate(T entity);
+
 }

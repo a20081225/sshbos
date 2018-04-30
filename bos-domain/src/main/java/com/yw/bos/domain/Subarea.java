@@ -8,8 +8,8 @@ import javax.persistence.*;
 @Table(name = "bc_subarea", schema = "ssh_bos")
 public class Subarea {
     private String id;
-    private String decidedzoneId;
-    private String regionId;
+//    private String decidedzoneId;
+//    private String regionId;
     private String addresskey;
     private String startnum;
     private String endnum;
@@ -17,6 +17,10 @@ public class Subarea {
     private String position;
     private Decidedzone decidedzone;
     private Region region;
+
+    public String getSubareaid(){
+        return id;
+    }
 
     @Id
     @Column(name = "id")
@@ -28,25 +32,25 @@ public class Subarea {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "decidedzone_id",insertable = false, updatable = false)
-    public String getDecidedzoneId() {
-        return decidedzoneId;
-    }
-
-    public void setDecidedzoneId(String decidedzoneId) {
-        this.decidedzoneId = decidedzoneId;
-    }
-
-    @Basic
-    @Column(name = "region_id",insertable = false, updatable = false)
-    public String getRegionId() {
-        return regionId;
-    }
-
-    public void setRegionId(String regionId) {
-        this.regionId = regionId;
-    }
+//    @Basic
+//    @Column(name = "decidedzone_id",insertable = false, updatable = false)
+//    public String getDecidedzoneId() {
+//        return decidedzoneId;
+//    }
+//
+//    public void setDecidedzoneId(String decidedzoneId) {
+//        this.decidedzoneId = decidedzoneId;
+//    }
+//
+//    @Basic
+//    @Column(name = "region_id",insertable = false, updatable = false)
+//    public String getRegionId() {
+//        return regionId;
+//    }
+//
+//    public void setRegionId(String regionId) {
+//        this.regionId = regionId;
+//    }
 
     @Basic
     @Column(name = "addresskey")
@@ -106,9 +110,9 @@ public class Subarea {
         Subarea subarea = (Subarea) o;
 
         if (id != null ? !id.equals(subarea.id) : subarea.id != null) return false;
-        if (decidedzoneId != null ? !decidedzoneId.equals(subarea.decidedzoneId) : subarea.decidedzoneId != null)
-            return false;
-        if (regionId != null ? !regionId.equals(subarea.regionId) : subarea.regionId != null) return false;
+//        if (decidedzoneId != null ? !decidedzoneId.equals(subarea.decidedzoneId) : subarea.decidedzoneId != null)
+//            return false;
+//        if (regionId != null ? !regionId.equals(subarea.regionId) : subarea.regionId != null) return false;
         if (addresskey != null ? !addresskey.equals(subarea.addresskey) : subarea.addresskey != null) return false;
         if (startnum != null ? !startnum.equals(subarea.startnum) : subarea.startnum != null) return false;
         if (endnum != null ? !endnum.equals(subarea.endnum) : subarea.endnum != null) return false;
@@ -121,8 +125,8 @@ public class Subarea {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (decidedzoneId != null ? decidedzoneId.hashCode() : 0);
-        result = 31 * result + (regionId != null ? regionId.hashCode() : 0);
+//        result = 31 * result + (decidedzoneId != null ? decidedzoneId.hashCode() : 0);
+//        result = 31 * result + (regionId != null ? regionId.hashCode() : 0);
         result = 31 * result + (addresskey != null ? addresskey.hashCode() : 0);
         result = 31 * result + (startnum != null ? startnum.hashCode() : 0);
         result = 31 * result + (endnum != null ? endnum.hashCode() : 0);

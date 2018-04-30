@@ -10,7 +10,7 @@ import java.util.Collection;
 public class Decidedzone {
     private String id;
     private String name;
-    private String staffId;
+//    private String staffId;
     private Staff staff;
     private Collection<Subarea> subareas;
 
@@ -34,15 +34,15 @@ public class Decidedzone {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "staff_id",insertable = false, updatable = false)
-    public String getStaffId() {
-        return staffId;
-    }
-
-    public void setStaffId(String staffId) {
-        this.staffId = staffId;
-    }
+//    @Basic
+//    @Column(name = "staff_id",insertable = false, updatable = false)
+//    public String getStaffId() {
+//        return staffId;
+//    }
+//
+//    public void setStaffId(String staffId) {
+//        this.staffId = staffId;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -53,7 +53,7 @@ public class Decidedzone {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (staffId != null ? !staffId.equals(that.staffId) : that.staffId != null) return false;
+//        if (staffId != null ? !staffId.equals(that.staffId) : that.staffId != null) return false;
 
         return true;
     }
@@ -62,12 +62,11 @@ public class Decidedzone {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (staffId != null ? staffId.hashCode() : 0);
+//        result = 31 * result + (staffId != null ? staffId.hashCode() : 0);
         return result;
     }
 
     @ManyToOne
-    @JoinColumn(name = "staff_id", referencedColumnName = "id")
     public Staff getStaff() {
         return staff;
     }

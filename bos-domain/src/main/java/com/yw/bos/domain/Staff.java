@@ -16,6 +16,26 @@ public class Staff {
     private String station;
     private String standard;
     private Collection<Decidedzone> decidedzones;
+    private Collection<Noticebill> noticebills;
+    private Collection<Workbill> workbills;
+
+    @OneToMany(mappedBy = "staff")
+    public Collection<Noticebill> getNoticebills() {
+        return noticebills;
+    }
+
+    public void setNoticebills(Collection<Noticebill> noticebills) {
+        this.noticebills = noticebills;
+    }
+
+    @OneToMany(mappedBy = "staff")
+    public Collection<Workbill> getWorkbills() {
+        return workbills;
+    }
+
+    public void setWorkbills(Collection<Workbill> workbills) {
+        this.workbills = workbills;
+    }
 
     @Id
     @Column(name = "id")
