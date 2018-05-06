@@ -26,6 +26,9 @@
 <script
 	src="${pageContext.request.contextPath }/js/easyui/locale/easyui-lang-zh_CN.js"
 	type="text/javascript"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/highcharts/highcharts.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/highcharts/modules/exporting.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/highcharts/modules/export-data.js"></script>
 <script type="text/javascript">
 	function doAdd(){
 		$('#addSubareaWindow').window("open");
@@ -52,6 +55,45 @@
 		alert("导入");
 	}
 	
+	function doShowHighcharts() {
+        $('#showHighchartsWindow').window("open");
+        $.post("subareaAction_findSubaresByProvince.action",function (data) {
+            Highcharts.chart('showSubarea', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: '区域分区分布图'
+                },
+                // tooltip: {
+                //     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                // },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data:data
+                }]
+            });
+        });
+
+    }
+
 	//工具栏
 	var toolbar = [ {
 		id : 'button-search',	
@@ -83,7 +125,12 @@
 		text : '导出',
 		iconCls : 'icon-undo',
 		handler : doExport
-	}];
+	},{
+        id : 'button-showHighcharts',
+        text : '分布图',
+        iconCls : 'icon-search',
+        handler : doShowHighcharts
+    }];
 	// 定义列
 	var columns = [ [ {
 		field : 'id',
@@ -178,7 +225,7 @@
 	        height: 400,
 	        resizable:false
 	    });
-		
+
 		// 查询分区
 		$('#searchWindow').window({
 	        title: '查询分区',
@@ -189,6 +236,16 @@
 	        height: 400,
 	        resizable:false
 	    });
+
+        $('#showHighchartsWindow').window({
+            title: '区域分区分布图',
+            width: 650,
+            modal: true,
+            shadow: true,
+            closed: true,
+            height: 500,
+            resizable:false
+        });
 
         //将表单FORM内容转成JSON
         $.fn.serializeJson=function(){
@@ -320,5 +377,13 @@
 			</form>
 		</div>
 	</div>
+	<%--highchart--%>
+	<div class="easyui-window" title="区域分区分布图" id="showHighchartsWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
+		<div style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto" id="showSubarea">
+
+
+		</div>
+	</div>
+
 </body>
 </html>

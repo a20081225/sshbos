@@ -56,14 +56,14 @@ public class StaffAction extends BaseAction<Staff>{
     //分页
     public String pageQuery(){
         staffService.pageQuery(pageBean);
-        this.makeJson(pageBean,new String[]{"currentPage","pageSize","detachedCriteria","decidedzones"});
+        this.makeJson(pageBean,new String[]{"currentPage","pageSize","detachedCriteria","decidedzones","workbills","noticebills"});
         return NONE;
     }
 
     //下拉菜单
     public String listajax(){
         List<Staff> list = staffService.findNotDelete();
-        this.makeJson(list,new String[]{"decidedzones"});
+        this.makeJson(list,new String[]{"decidedzones","workbills","noticebills"});
         return NONE;
     }
 

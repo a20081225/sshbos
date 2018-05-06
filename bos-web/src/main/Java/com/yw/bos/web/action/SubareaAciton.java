@@ -124,4 +124,11 @@ public class SubareaAciton extends BaseAction<Subarea> {
         return NONE;
     }
 
+    //区域分布图
+    public String findSubaresByProvince(){
+        List<Object> list = subareaService.findSubaresByProvince();
+        this.makeJson(list,new String[]{});
+        return NONE;
+    }
+
 }

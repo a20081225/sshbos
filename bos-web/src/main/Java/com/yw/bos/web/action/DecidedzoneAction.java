@@ -39,7 +39,7 @@ public class DecidedzoneAction extends BaseAction<Decidedzone>{
     //分页
     public String pageQuery(){
         decidedzoneService.pageQuery(pageBean);
-        this.makeJson(pageBean,new String[]{"currentPage","pageSize","detachedCriteria","subareas","decidedzones"});
+        this.makeJson(pageBean,new String[]{"currentPage","pageSize","detachedCriteria","subareas","decidedzones","workbills","noticebills"});
         return NONE;
     }
 

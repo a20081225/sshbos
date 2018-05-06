@@ -6,4 +6,6 @@ import com.yw.bos.domain.User;
 public interface IUserDao extends IBaseDao<User>{
 
     User findUserByUandP(String username, String password);
+
+    User findUserByUsername(String username);
 }

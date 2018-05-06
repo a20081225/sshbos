@@ -47,7 +47,10 @@
 					}
 				}           
 			],
-			url : '',
+			url : 'roleAction_pageQuery.action',
+            pageList: [30,50,100],
+            pagination : true,
+            fit : true,
 			columns : [[
 				{
 					field : 'id',

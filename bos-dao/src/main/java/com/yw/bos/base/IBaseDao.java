@@ -1,7 +1,5 @@
 package com.yw.bos.base;
 
-import com.yw.bos.domain.Region;
-import com.yw.bos.domain.User;
 import com.yw.bos.utils.PageBean;
 import org.hibernate.criterion.DetachedCriteria;
 

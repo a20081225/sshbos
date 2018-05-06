@@ -42,13 +42,13 @@
 				<prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/ssh_bos</prop>
                 <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
-			</props>
+            </props>
 		</property>
 		<!-- 注入hibernate的映射文件 -->
 		<property name="mappingLocations">
 			<list>
 				<value>classpath:com/yw/bos/domain/*.xml</value>
-			</list>
+            </list>
 		</property>
         <property name="annotatedClasses">
             <list>
@@ -60,7 +60,9 @@
 				<value>com.yw.bos.domain.Noticebill</value>
 				<value>com.yw.bos.domain.Workbill</value>
 				<value>com.yw.bos.domain.Workordermanage</value>
-			</list>
+                <value>com.yw.bos.domain.Function</value>
+                <value>com.yw.bos.domain.Role</value>
+            </list>
         </property>
     </bean>
 
@@ -87,4 +89,83 @@
 		<!--<property name="serviceClass" value="com.yw.bos.crm.ICustomerService"/>-->
 		<!--<property name="address" value="http://localhost:8081/crmservice/service/customer"/>-->
 	<!--</bean>-->
+
+	<!--配置shiro过滤器工厂-->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!--注入安全管理器对象-->
+		<property name="securityManager" ref="securityManager"></property>
+		<!--注入相关URL-->
+		<property name="loginUrl" value="/login.jsp"/>
+		<property name="successUrl" value="/index.jsp"/>
+		<property name="unauthorizedUrl" value="/unauthorized.jsp"/>
+		<!--URL的拦截-->
+		<property name="filterChainDefinitions" >
+			<value>
+				/css/** = anon
+				/js/** = anon
+				/images/** = anon
+				/validatecode.jsp* = anon
+				/login.jsp = anon
+				/userAction_login.action = anon
+				<!--/page_base_staff.action = perms["staff-list"]-->
+				/* = authc
+			</value>
+		</property>
+
+	</bean>
+
+	<!--安全管理器对象-->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="bosRealm"/>
+		<property name="cacheManager" ref="ehCacheManager"/>
+	</bean>
+
+	<!--注册缓存管理器-->
+	<bean id="ehCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache.xml" />
+	</bean>
+
+	<!--注册realm-->
+	<bean id="bosRealm" class="com.yw.bos.web.realm.BOSRealm"/>
+
+	<!--shiro框架注解-->
+	<bean id="defaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+		<property name="proxyTargetClass" value="true"/>
+	</bean>
+
+	<!--配置shiro切面类-->
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor"/>
+
+
+	<!-- 注册自定义作业类 -->
+	<bean id="myJob" class="com.yw.bos.jobs.MailJob">
+		<property name="username" value="username"></property>
+		<property name="password" value="password"></property>
+		<property name="smtpServer" value="SMTP.126.com"></property>
+	</bean>
+	<!-- 配置JobDetail -->
+	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 注入目标对象 -->
+		<property name="targetObject" ref="myJob"/>
+		<!-- 注入目标方法 -->
+		<property name="targetMethod" value="execute"/>
+	</bean>
+	<!-- 配置触发器 -->
+	<bean id="myTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<!-- 注入任务详情对象 -->
+		<property name="jobDetail" ref="jobDetail"/>
+		<!-- 注入cron表达式，通过这个表达式指定触发的时间点 -->
+		<property name="cronExpression">
+			<value>0 * 1 * * ?</value>
+		</property>
+	</bean>
+	<!-- 配置调度工厂 -->
+	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!-- 注入触发器 -->
+		<property name="triggers">
+			<list>
+				<ref bean="myTrigger"/>
+			</list>
+		</property>
+	</bean>
 </beans>

@@ -30,6 +30,6 @@ public class DecidedzoneServiceImpl implements IDecidedzoneService {
     }
 
     public void pageQuery(PageBean pageBean) {
-        subareaDao.pageQuery(pageBean);
+        decidedzoneDao.pageQuery(pageBean);
     }
 }

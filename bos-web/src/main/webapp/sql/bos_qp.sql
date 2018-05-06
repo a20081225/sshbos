@@ -1,91 +1,98 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/4/29 19:14:03                           */
+/* Created on:     2018/4/30 23:04:27                           */
 /*==============================================================*/
 
 
-drop table if exists qp_noticebill;
+drop table if exists auth_function;
 
-drop table if exists qp_workbill;
+drop table if exists auth_role;
 
-drop table if exists qp_workordermanage;
+drop table if exists role_function;
+
+-- drop table if exists t_user;
+
+drop table if exists user_role;
 
 /*==============================================================*/
-/* Table: qp_noticebill                                         */
+/* Table: auth_function                                         */
 /*==============================================================*/
-create table qp_noticebill
+create table auth_function
 (
    id                   varchar(32) not null,
-   staff_id             varchar(32),
-   customer_id          varchar(32),
-   customer_name        varchar(20),
-   delegater            varchar(20),
-   telephone            varchar(20),
-   pickaddress          varchar(200),
-   arrivecity           varchar(20),
-   product              varchar(20),
-   pickdate             date,
-   num                  int,
-   weight               double,
-   volume               varchar(20),
+   name                 varchar(255),
+   code                 varchar(255),
+   description          varchar(255),
+   page                 varchar(255),
+   generatemenu         varchar(255),
+   zindex               int,
+   pid                  varchar(32),
+   primary key (id),
+   key AK_Key_2 (name)
+);
+
+/*==============================================================*/
+/* Table: auth_role                                             */
+/*==============================================================*/
+create table auth_role
+(
+   id                   varchar(32) not null,
+   name                 varchar(255),
+   code                 varchar(255),
+   description          varchar(255),
+   primary key (id),
+   key AK_Key_2 (name)
+);
+
+/*==============================================================*/
+/* Table: role_function                                         */
+/*==============================================================*/
+create table role_function
+(
+   role_id              varchar(32) not null,
+   function_id          varchar(32) not null,
+   primary key (role_id, function_id)
+);
+
+/*==============================================================*/
+/* Table: t_user                                                */
+/*==============================================================*/
+/* create table t_user
+(
+   id                   varchar(32) not null,
+   username             varchar(20),
+   password             varchar(32),
+   salary               double,
+   birthday             date,
+   gender               varchar(10),
+   station              varchar(40),
+   telephone            varchar(11),
    remark               varchar(255),
-   ordertype            varchar(20),
-   user_id              varchar(32),
    primary key (id)
-);
+); */
 
 /*==============================================================*/
-/* Table: qp_workbill                                           */
+/* Table: user_role                                             */
 /*==============================================================*/
-create table qp_workbill
+create table user_role
 (
-   id                   varchar(32) not null,
-   noticebill_id        varchar(32),
-   type                 varchar(20),
-   pickstate            varchar(20),
-   buildtime            timestamp,
-   attachbilltimes      int,
-   remark               varchar(255),
-   staff_id             varchar(32),
-   primary key (id)
+   user_id              varchar(32) not null,
+   role_id              varchar(32) not null,
+   primary key (user_id, role_id)
 );
 
-/*==============================================================*/
-/* Table: qp_workordermanage                                    */
-/*==============================================================*/
-create table qp_workordermanage
-(
-   id                   varchar(32) not null,
-   arrivecity           varchar(20),
-   product              varchar(20),
-   num                  int,
-   weight               double,
-   floadreqr            varchar(255),
-   prodtimelimit        varchar(40),
-   prodtype             varchar(40),
-   sendername           varchar(20),
-   senderphone          varchar(20),
-   senderaddr           varchar(200),
-   receivername         varchar(20),
-   receiverphone        varchar(20),
-   receiveraddr         varchar(200),
-   feeitemnum           int,
-   actlweit             double,
-   vol                  varchar(20),
-   managerCheck         varchar(1),
-   updatetime           date,
-   primary key (id)
-);
+alter table auth_function add constraint FK_pid_id foreign key (pid)
+      references auth_function (id) on delete restrict on update restrict;
 
-alter table qp_noticebill add constraint FK_Reference_2 foreign key (user_id)
+alter table role_function add constraint FK_rolefunction_function foreign key (function_id)
+      references auth_function (id) on delete restrict on update restrict;
+
+alter table role_function add constraint FK_rolefunction_role foreign key (role_id)
+      references auth_role (id) on delete restrict on update restrict;
+
+alter table user_role add constraint FK_userrole_user foreign key (user_id)
       references t_user (id) on delete restrict on update restrict;
 
-alter table qp_noticebill add constraint FK_Reference_3 foreign key (staff_id)
-      references bc_staff (id) on delete restrict on update restrict;
-
-alter table qp_workbill add constraint FK_Reference_4 foreign key (staff_id)
-      references bc_staff (id) on delete restrict on update restrict;
-
-alter table qp_workbill add constraint FK_workbill_noticebill_fk foreign key (noticebill_id)
-      references qp_noticebill (id) on delete restrict on update restrict;
+alter table user_role add constraint FK_userrole_role foreign key (role_id)
+      references auth_role (id) on delete restrict on update restrict;
 

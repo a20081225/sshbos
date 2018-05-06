@@ -1,8 +1,10 @@
 package com.yw.bos.domain;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "t_user", schema = "ssh_bos")
@@ -17,14 +19,24 @@ public class User {
     private String telephone;
     private String remark;
     private Collection<Noticebill> noticebills;
+    private Collection<Role> roles = new HashSet<Role>();
 
-    @OneToMany(mappedBy = "user")
-    public Collection<Noticebill> getNoticebills() {
-        return noticebills;
+    public String getRoleNames(){
+        String roleNames = "";
+        for (Role role : roles) {
+            roleNames += role.getName() + " ";
+        }
+        return roleNames;
     }
 
-    public void setNoticebills(Collection<Noticebill> noticebills) {
-        this.noticebills = noticebills;
+    public String getBirthdayString(){
+        if (birthday !=null) {
+            String format = new SimpleDateFormat("yyyy-MM-dd").format(birthday);
+            return format;
+        }else {
+            return "暂无数据";
+        }
+
     }
 
     @Id
@@ -122,17 +134,17 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User that = (User) o;
+        User user = (User) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (username != null ? !username.equals(that.username) : that.username != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (salary != null ? !salary.equals(that.salary) : that.salary != null) return false;
-        if (birthday != null ? !birthday.equals(that.birthday) : that.birthday != null) return false;
-        if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
-        if (station != null ? !station.equals(that.station) : that.station != null) return false;
-        if (telephone != null ? !telephone.equals(that.telephone) : that.telephone != null) return false;
-        if (remark != null ? !remark.equals(that.remark) : that.remark != null) return false;
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (salary != null ? !salary.equals(user.salary) : user.salary != null) return false;
+        if (birthday != null ? !birthday.equals(user.birthday) : user.birthday != null) return false;
+        if (gender != null ? !gender.equals(user.gender) : user.gender != null) return false;
+        if (station != null ? !station.equals(user.station) : user.station != null) return false;
+        if (telephone != null ? !telephone.equals(user.telephone) : user.telephone != null) return false;
+        if (remark != null ? !remark.equals(user.remark) : user.remark != null) return false;
 
         return true;
     }
@@ -149,5 +161,24 @@ public class User {
         result = 31 * result + (telephone != null ? telephone.hashCode() : 0);
         result = 31 * result + (remark != null ? remark.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "user")
+    public Collection<Noticebill> getNoticebills() {
+        return this.noticebills;
+    }
+
+    public void setNoticebills(Collection<Noticebill> noticebills) {
+        this.noticebills = noticebills;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "user_role",joinColumns = {@JoinColumn(name = "role_id")},inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    public Collection<Role> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 }

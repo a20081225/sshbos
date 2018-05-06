@@ -23,10 +23,11 @@
 		<!--全局配置-->
 		<global-results>
 			<result name="login">/login.jsp</result>
+			<result name="unauthorized">/unauthorized.jsp</result>
 		</global-results>
-		<!--<global-exception-mappings>-->
-			<!--<exception-mapping result="error" exception="java.lang.RuntimeException"></exception-mapping>-->
-		<!--</global-exception-mappings>-->
+		<global-exception-mappings>
+			<exception-mapping result="unauthorized" exception="org.apache.shiro.authz.UnauthorizedException"></exception-mapping>
+		</global-exception-mappings>
 
 		<!-- 需要进行权限控制的页面访问 -->
 		<action name="page_*_*">
@@ -37,7 +38,8 @@
 		<action name="userAction_*" class="userAction" method="{1}">
 			<result name="login">/login.jsp</result>
 			<result name="home">/index.jsp</result>
-			<allowed-methods>login,logout,editPassword</allowed-methods>
+			<result name="list">/WEB-INF/pages/admin/userlist.jsp</result>
+			<allowed-methods>login,logout,editPassword,add,pageQuery</allowed-methods>
 		</action>
 
 		<!--取派员管理-->
@@ -55,7 +57,7 @@
 		<!--分区管理-->
 		<action name="subareaAction_*" class="subareaAciton" method="{1}">
 			<result name="list">/WEB-INF/pages/base/subarea.jsp</result>
-			<allowed-methods>add,pageQuery,exportXls,listajax,findByDecidedzoneId</allowed-methods>
+			<allowed-methods>add,pageQuery,exportXls,listajax,findByDecidedzoneId,findSubaresByProvince</allowed-methods>
 		</action>
 
 		<!--定区管理-->
@@ -74,6 +76,18 @@
 		<action name="workordermanageAction_*" class="workordermanageAction" method="{1}">
 			<result name="list">/WEB-INF/pages/qupai/quickworkorder.jsp</result>
 			<allowed-methods>add</allowed-methods>
+		</action>
+
+		<!--权限管理-->
+		<action name="functionAction_*" class="functionAction" method="{1}">
+			<result name="list">/WEB-INF/pages/admin/function.jsp</result>
+			<allowed-methods>listajax,add,pageQuery,findMenu</allowed-methods>
+		</action>
+
+		<!--角色管理-->
+		<action name="roleAction_*" class="roleAction" method="{1}">
+			<result name="list">/WEB-INF/pages/admin/role.jsp</result>
+			<allowed-methods>add,pageQuery,listajax</allowed-methods>
 		</action>
 	</package>
 </struts>
